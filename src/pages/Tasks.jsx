@@ -3,7 +3,7 @@ import React from 'react'
 const Tasks = () => {
   return (
     <div>
-      <div shadow-md className='m-2  rounded-xl border border-gray-300'>
+      <div  className='m-2 shadow-md rounded-xl border border-gray-300'>
         <div className='flex flex-cols-1 item-centre justify-between p-4'>
         <h1 className='px-4 py-2'>Tasks</h1>
         <button className='rounded-md bg-blue-500 text-white px-4 py-2'>Add Task</button>
@@ -75,6 +75,9 @@ const Tasks = () => {
         </div>
         
       </div>
+      </div>
+      <div className='m-2 p-4 shadow-md rounded-xl border border-gray-300'>
+        No Tasks Added
       </div>
     </div>
   )
