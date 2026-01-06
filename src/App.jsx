@@ -1,11 +1,13 @@
 import React from 'react'
-import Tasks from './pages/Tasks'
+// import Tasks from './pages/Tasks'
+// import Goals from './pages/Goals'
 
 const App = () => {
   return (
     <div >
   
-      <Tasks />
+      {/* <Tasks /> */}
+      {/* <Goals /> */}
     </div>
   )
 }
