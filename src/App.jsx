@@ -1,10 +1,13 @@
 import React from 'react'
+// import Tasks from './pages/Tasks'
+// import Goals from './pages/Goals'
 
 const App = () => {
   return (
-    <div className="text-center text-2xl font-bold text-blue-600">
+    <div >
   
-      I love you
+      {/* <Tasks /> */}
+      {/* <Goals /> */}
     </div>
   )
 }
