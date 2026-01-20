@@ -1,5 +1,22 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import {
+  LayoutDashboard,
+  CheckSquare,
+  Flame,
+  Target,
+  BarChart3,
+  Settings,
+} from "lucide-react";
+
+const navItems = [
+  { name: "Dashboard", path: "/", icon: LayoutDashboard },
+  { name: "Tasks", path: "/tasks", icon: CheckSquare },
+  { name: "Habits", path: "/habits", icon: Flame },
+  { name: "Goals", path: "/goals", icon: Target },
+  { name: "Analytics", path: "/analytics", icon: BarChart3 },
+  { name: "Settings", path: "/settings", icon: Settings },
+];
 
 const Sidebar = () => {
   return (
@@ -7,7 +24,7 @@ const Sidebar = () => {
 
       {/* Logo */}
       <div className="flex items-center gap-3 px-6 py-5 text-[#4B0879] font-semibold">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#5E059C] to-black flex items-center justify-center text-white font-bold">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[rgba(119,0,201,0.65)] to-[rgba(204,229,242,0.65)] flex items-center justify-center text-white font-bold">
           CT
         </div>
 
@@ -19,35 +36,35 @@ const Sidebar = () => {
 
       {/* Navigation */}
       <nav className="px-4 space-y-1">
-        {[
-          { name: "Dashboard", path: "/" },
-          { name: "Tasks", path: "/tasks" },
-          { name: "Habits", path: "/habits" },
-          { name: "Goals", path: "/goals" },
-          { name: "Analytics", path: "/analytics" },
-          { name: "Settings", path: "/settings" },
-        ].map((item) => (
-          <NavLink
-            key={item.name}
-            to={item.path}
-            className={({ isActive }) =>
-              `block px-3 py-2 rounded-md text-sm transition
-              ${
-              isActive
-              ? "bg-[#cddcff] text-[#4B0879] font-semibold"
-                  : "text-slate-700 hover:bg-[#e6efff] hover:text-[#4B0879]"
-              }`
-            }
-          >
-          {item.name}
-          </NavLink>
+        {navItems.map((item) => {
+          const Icon = item.icon;
 
-        ))}
+          return (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2 rounded-md text-sm
+                 cursor-pointer
+                transition-colors duration-150 ease-out
+                ${
+                  isActive
+                    ? "bg-[#cddcff] text-[#4B0879] font-semibold"
+                    : "text-slate-700 hover:bg-[#e6efff] hover:text-[#4B0879]"
+                }`
+              }
+            >
+              <Icon className="w-4 h-4" />
+              <span>{item.name}</span>
+            </NavLink>
+
+          );
+        })}
       </nav>
 
       {/* Footer */}
       <div className="mt-auto px-4 py-4 border-t border-slate-300 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#5E059C] to-black flex items-center justify-center text-white font-semibold">
+        <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[rgba(119,0,201,0.65)] to-[rgba(204,229,242,0.65)] flex items-center justify-center text-white font-semibold">
           U
         </div>
 

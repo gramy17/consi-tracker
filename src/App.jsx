@@ -11,7 +11,7 @@ import Goals from "./pages/Goals";
 
 const App = () => {
   return (
-    <div className="flex bg-[#030619] min-h-screen">
+    <div className="flex bg-[#050A20] min-h-screen">
       <Sidebar />
 
       <div className="flex-1 relative">

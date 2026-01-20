@@ -9,12 +9,13 @@ const Navbar = () => {
 
   return (
     <nav
-      className="h-16 bg-[#9DBDFA] border-b border-slate-800
+      className="h-16 bg-gradient-to-tr from-[rgba(119,0,201,0.65)] to-[rgba(204,229,242,0.65)] border-b border-slate-800
                  flex items-center px-6
                  fixed top-0 right-0 left-64 z-10
-                 backdrop-blur"
+                 backdrop-blur
+                 shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
     >
-      <h1 className="text-slate-800 font-semibold text-lg">
+      <h1 className="text-white/90 font-semibold text-lg">
         {title}
       </h1>
     </nav>
