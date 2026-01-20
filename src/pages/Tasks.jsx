@@ -6,7 +6,7 @@ const Tasks = () => {
       <div  className='m-2 shadow-md rounded-xl border border-gray-300 bg-[#DCE8FF]'>
         <div className='flex flex-cols-1 item-centre justify-between p-4 '>
         <h1 className='px-4 py-2 '>Tasks</h1>
-        <button className='rounded-md bg-gradient-to-tr from-[#5E059C] to-black text-white px-4 py-2'>Add Task</button>
+        <button className='px-4 py-2 rounded-md bg-[#4B0879] text-white text-sm font-medium hover:opacity-90 transition'>Add Task</button>
       </div>
       <hr />
       <div className='flex flex-cols justify-around m-2'>

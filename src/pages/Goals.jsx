@@ -6,7 +6,7 @@ const Goals = () => {
       <div  className='m-2 bg-[#DCE8FF] shadow-md rounded-xl border border-gray-300'>
         <div className='flex flex-cols-1 item-centre justify-between p-4'>
         <h1 className='px-4 py-2'>Goals</h1>
-        <button className='rounded-md bg-gradient-to-tr from-[#5E059C] to-black  text-white px-4 py-2'>Add Goal</button>
+        <button className='px-4 py-2 rounded-md bg-[#4B0879] text-white text-sm font-medium hover:opacity-90 transition'>Add Goal</button>
       </div>
       <hr />
       <div className='bg-[#DCE8FF] m-2 p-1'>
@@ -21,4 +21,4 @@ const Goals = () => {
   )
 }
 
-export default Goals
+export default Goals;
