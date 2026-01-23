@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 
-const Layout = () => {
+const Layout: React.FC = () => {
   return (
     <div className="flex bg-[#050A20] min-h-screen">
       <Sidebar />
@@ -20,4 +20,4 @@ const Layout = () => {
   );
 };
 
-export default Layout
+export default Layout;
