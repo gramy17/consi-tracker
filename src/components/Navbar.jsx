@@ -1,18 +1,29 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { routeMeta } from "../constants/routeMeta";
 
 const Navbar = () => {
   const { pathname } = useLocation();
 
-  const meta = routeMeta[pathname] || routeMeta["/"];
+  const metaByPath = {
+    "/": { title: "Dashboard", subtitle: "Structured, opinionated productivity" },
+    "/tasks": { title: "Tasks", subtitle: "Manage your daily tasks efficiently" },
+    "/habits": { title: "Habits", subtitle: "Track and build your daily habits" },
+    "/goals": { title: "Goals", subtitle: "Set and achieve your long-term goals" },
+    "/analytics": { title: "Analytics", subtitle: "View your productivity metrics" },
+    "/settings": { title: "Settings", subtitle: "Configure your preferences and account" },
+  };
+
+  const meta = metaByPath[pathname] || {
+    title: "Consi Tracker",
+    subtitle: "Your consistency control center",
+  };
 
   return (
     <nav
       className="h-16 bg-gradient-to-tr from-[rgba(119,0,201,0.65)] to-[rgba(204,229,242,0.65)]
                  border-b border-slate-800
                  flex items-center px-6
-                 fixed top-0 right-0 left-64 z-10
+                 fixed top-0 right-0 left-0 md:left-64 z-10
                  backdrop-blur
                  shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
     >
