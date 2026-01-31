@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050A20] flex items-center justify-center">
+      <div className="min-h-svh bg-[var(--ui-bg)] flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner size="lg" />
           <p className="mt-4 text-white/60 text-sm">Loading...</p>

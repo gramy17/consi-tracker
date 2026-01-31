@@ -6,14 +6,14 @@ import Navbar from "../components/Navbar";
 
 const Layout = () => {
   return (
-    <div className="flex min-h-screen bg-[#0a0a0a]">
+    <div className="flex min-h-svh bg-[var(--ui-bg)]">
       <Sidebar />
 
       <div className="flex-1 relative">
         <Navbar />
 
-        <main className="pt-20 px-4 pb-8 md:px-8 lg:px-12">
-          <div className="max-w-7xl mx-auto">
+        <main className="pt-20 pb-10 px-4 sm:px-6 lg:px-8">
+          <div className="ui-container">
             <Outlet />
           </div>
         </main>

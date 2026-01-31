@@ -68,7 +68,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Stats Grid */}
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {statsDisplay.map((stat) => {
@@ -76,20 +76,20 @@ const Dashboard = () => {
           return (
             <div
               key={stat.label}
-              className="group p-5 rounded-2xl bg-[#111111] border border-[#1a1a1a] hover:border-[#262626] transition-all duration-300"
+              className="group ui-card p-5 transition-colors duration-200 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                  <p className="ui-label">
                     {stat.label}
                   </p>
                   <p className="mt-2 text-3xl font-semibold text-white tracking-tight">
                     {stat.value}
                   </p>
-                  <p className="mt-1 text-sm text-neutral-500">{stat.subtext}</p>
+                  <p className="mt-1 text-sm text-white/50">{stat.subtext}</p>
                 </div>
-                <div className="p-2.5 rounded-xl bg-[#1a1a1a] group-hover:bg-[#222] transition-colors">
-                  <Icon className="w-5 h-5 text-neutral-400" />
+                <div className="p-3 rounded-xl bg-white/5 group-hover:bg-white/8 transition-colors">
+                  <Icon className="w-5 h-5 text-white/55" />
                 </div>
               </div>
             </div>
@@ -100,15 +100,15 @@ const Dashboard = () => {
       {/* Main Content Grid */}
       <section className="grid gap-6 lg:grid-cols-5">
         {/* Today's Habits - Takes 3 columns */}
-        <div className="lg:col-span-3 p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
+        <div className="lg:col-span-3 ui-card p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-lg font-semibold text-white">Today's Habits</h2>
-              <p className="text-sm text-neutral-500 mt-0.5">Keep your streak alive</p>
+              <p className="text-sm text-white/50 mt-1">Keep your streak alive</p>
             </div>
             <Link 
               to="/habits"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium text-neutral-400 hover:text-white bg-[#1a1a1a] hover:bg-[#222] transition-all"
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium bg-white/10 text-white/70 hover:bg-white/15 hover:text-white transition-colors"
             >
               View all
               <ArrowRight className="w-4 h-4" />
@@ -117,13 +117,13 @@ const Dashboard = () => {
 
           {todayHabits.length === 0 ? (
             <div className="text-center py-12 px-4">
-              <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-4">
-                <Flame className="w-6 h-6 text-neutral-600" />
+              <div className="w-12 h-12 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center mx-auto mb-4">
+                <Flame className="w-6 h-6 text-white/35" />
               </div>
-              <p className="text-neutral-400 mb-3">No habits yet</p>
+              <p className="text-white/60 mb-3">No habits yet</p>
               <Link 
                 to="/habits"
-                className="inline-flex items-center gap-2 text-sm text-white hover:text-neutral-300 transition-colors"
+                className="inline-flex items-center gap-2 text-sm text-white/85 hover:text-white transition-colors"
               >
                 Create your first habit <ArrowRight className="w-4 h-4" />
               </Link>
@@ -133,29 +133,29 @@ const Dashboard = () => {
               {todayHabits.map((habit) => (
                 <div
                   key={habit.id}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#262626] transition-all"
+                  className="ui-card p-4 flex items-center gap-4 transition-colors hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
                 >
                   <button
                     onClick={() => handleToggleHabit(habit)}
                     className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${
                       habit.status === "Done"
                         ? "bg-white border-white"
-                        : "border-neutral-600 hover:border-neutral-400"
+                        : "border-white/25 hover:border-white/45"
                     }`}
                   >
                     {habit.status === "Done" && <Check className="w-4 h-4 text-black" strokeWidth={3} />}
                   </button>
                   <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-medium ${habit.status === "Done" ? "text-neutral-500 line-through" : "text-white"}`}>
+                    <p className={`text-sm font-medium ${habit.status === "Done" ? "text-white/45 line-through" : "text-white/90"}`}>
                       {habit.name}
                     </p>
-                    <p className="text-xs text-neutral-600 mt-0.5">{habit.streak || 0} day streak</p>
+                    <p className="text-xs text-white/40 mt-1">{habit.streak || 0} day streak</p>
                   </div>
                   <span
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
+                    className={`px-3 py-2 rounded-lg text-xs font-medium ${
                       habit.status === "Done"
-                        ? "bg-white/10 text-neutral-400"
-                        : "bg-[#1a1a1a] text-neutral-400"
+                        ? "bg-white/10 text-white/60"
+                        : "bg-white/8 text-white/60"
                     }`}
                   >
                     {habit.status}
@@ -167,23 +167,22 @@ const Dashboard = () => {
         </div>
 
         {/* Upcoming Tasks - Takes 2 columns */}
-        <div className="lg:col-span-2 p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
+        <div className="lg:col-span-2 ui-card p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-lg font-semibold text-white">Upcoming Tasks</h2>
-              <p className="text-sm text-neutral-500 mt-0.5">What's next on your list</p>
             </div>
           </div>
 
           {upcomingTasks.length === 0 ? (
             <div className="text-center py-12 px-4">
-              <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-4">
-                <CheckSquare className="w-6 h-6 text-neutral-600" />
+              <div className="w-12 h-12 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center mx-auto mb-4">
+                <CheckSquare className="w-6 h-6 text-white/35" />
               </div>
-              <p className="text-neutral-400 mb-3">No pending tasks</p>
+              <p className="text-white/60 mb-3">No pending tasks</p>
               <Link 
                 to="/tasks"
-                className="inline-flex items-center gap-2 text-sm text-white hover:text-neutral-300 transition-colors"
+                className="inline-flex items-center gap-2 text-sm text-white/85 hover:text-white transition-colors"
               >
                 Add a task <ArrowRight className="w-4 h-4" />
               </Link>
@@ -193,12 +192,12 @@ const Dashboard = () => {
               {upcomingTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="p-4 rounded-xl bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#262626] transition-all"
+                  className="ui-card p-4 transition-colors hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
                 >
                   <p className="text-sm font-medium text-white">{task.title}</p>
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="text-xs text-neutral-500">{task.time}</span>
-                    <span className="px-2.5 py-1 rounded-lg bg-[#1a1a1a] text-xs text-neutral-400">
+                    <span className="text-xs text-white/45">{task.time}</span>
+                    <span className="px-3 py-2 rounded-lg bg-white/8 text-xs text-white/60">
                       {task.tag || "General"}
                     </span>
                   </div>
@@ -209,7 +208,7 @@ const Dashboard = () => {
           
           <Link 
             to="/tasks"
-            className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-medium text-neutral-400 hover:text-white bg-[#1a1a1a] hover:bg-[#222] transition-all"
+            className="mt-4 ui-btn ui-btn-secondary w-full"
           >
             View all tasks
             <ArrowRight className="w-4 h-4" />
@@ -218,15 +217,15 @@ const Dashboard = () => {
       </section>
 
       {/* Goals Overview */}
-      <section className="p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
+      <section className="ui-card p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-lg font-semibold text-white">Goals Overview</h2>
-            <p className="text-sm text-neutral-500 mt-0.5">Track your long-term progress</p>
+            <p className="text-sm text-white/50 mt-1">Track your long-term progress</p>
           </div>
           <Link 
             to="/goals"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium text-neutral-400 hover:text-white bg-[#1a1a1a] hover:bg-[#222] transition-all"
+            className="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium bg-white/10 text-white/70 hover:bg-white/15 hover:text-white transition-colors"
           >
             View all
             <ArrowRight className="w-4 h-4" />
@@ -235,13 +234,13 @@ const Dashboard = () => {
         
         {goals.length === 0 ? (
           <div className="text-center py-12 px-4">
-            <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-4">
-              <Target className="w-6 h-6 text-neutral-600" />
+            <div className="w-12 h-12 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center mx-auto mb-4">
+              <Target className="w-6 h-6 text-white/35" />
             </div>
-            <p className="text-neutral-400 mb-3">No goals set yet</p>
+            <p className="text-white/60 mb-3">No goals set yet</p>
             <Link 
               to="/goals"
-              className="inline-flex items-center gap-2 text-sm text-white hover:text-neutral-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-white/85 hover:text-white transition-colors"
             >
               Set your first goal <ArrowRight className="w-4 h-4" />
             </Link>
@@ -251,20 +250,20 @@ const Dashboard = () => {
             {goals.slice(0, 3).map((goal) => (
               <div
                 key={goal.id}
-                className="p-5 rounded-xl bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#262626] transition-all"
+                className="ui-card p-5 transition-colors hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
               >
                 <p className="text-sm font-medium text-white truncate">{goal.title}</p>
-                <p className="mt-1 text-xs text-neutral-500 truncate">
+                <p className="mt-1 text-xs text-white/45 truncate">
                   {goal.description || "No description"}
                 </p>
                 <div className="mt-4">
                   <div className="flex items-center justify-between text-xs mb-2">
-                    <span className="text-neutral-500">Progress</span>
+                    <span className="text-white/45">Progress</span>
                     <span className="text-white font-medium">{goal.progress || 0}%</span>
                   </div>
-                  <div className="h-1.5 w-full rounded-full bg-[#1a1a1a]">
+                  <div className="h-2 w-full rounded-full bg-white/10">
                     <div
-                      className="h-1.5 rounded-full bg-white transition-all duration-500"
+                      className="h-2 rounded-full bg-white transition-all duration-500"
                       style={{ width: `${goal.progress || 0}%` }}
                     />
                   </div>

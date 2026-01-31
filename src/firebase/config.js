@@ -3,14 +3,30 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
+const requiredEnvKeys = [
+  "VITE_FIREBASE_API_KEY",
+  "VITE_FIREBASE_AUTH_DOMAIN",
+  "VITE_FIREBASE_PROJECT_ID",
+  "VITE_FIREBASE_APP_ID",
+];
+
+const missingEnvKeys = requiredEnvKeys.filter((key) => !import.meta.env[key]);
+if (missingEnvKeys.length > 0) {
+  throw new Error(
+    `Missing Firebase env vars: ${missingEnvKeys.join(
+      ", "
+    )}. Create a .env.local (or .env) file; see .env.example.`
+  );
+}
+
 const firebaseConfig = {
-  apiKey: "AIzaSyASHxsuoX0cemiszko7fAM2VmxEFI_GXi8",
-  authDomain: "consi-tracker.firebaseapp.com",
-  projectId: "consi-tracker",
-  storageBucket: "consi-tracker.firebasestorage.app",
-  messagingSenderId: "189460216925",
-  appId: "1:189460216925:web:125445bf345cb1e4d421b4",
-  measurementId: "G-BPF2NLTB6Z"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

@@ -106,15 +106,15 @@ const Tasks = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
+      <div className="ui-card p-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-xl font-semibold text-white">Tasks</h1>
-            <p className="text-sm text-neutral-500 mt-1">Plan, prioritize, and ship consistently</p>
+            <h1 className="ui-h1">Tasks</h1>
+            <p className="ui-subtitle mt-1">Plan, prioritize, and ship consistently</p>
           </div>
           <button
             onClick={openAddModal}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black text-sm font-medium hover:bg-neutral-200 transition-all"
+            className="ui-btn ui-btn-primary"
           >
             <Plus className="w-4 h-4" />
             Add task
@@ -124,42 +124,42 @@ const Tasks = () => {
         {/* Filters */}
         <div className="grid gap-4 md:grid-cols-3">
           <div>
-            <label className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Status</label>
+            <label className="ui-label">Status</label>
             <select
               value={filters.status}
               onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
+              className="ui-select mt-2"
             >
               {["All", "Pending", "In progress", "Done"].map((option) => (
-                <option key={option} value={option} className="bg-[#111]">
+                <option key={option} value={option} className="bg-black">
                   {option}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Priority</label>
+            <label className="ui-label">Priority</label>
             <select
               value={filters.priority}
               onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
-              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
+              className="ui-select mt-2"
             >
               {["All", "High", "Medium", "Low"].map((option) => (
-                <option key={option} value={option} className="bg-[#111]">
+                <option key={option} value={option} className="bg-black">
                   {option}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Tag</label>
+            <label className="ui-label">Tag</label>
             <select
               value={filters.tag}
               onChange={(e) => setFilters({ ...filters, tag: e.target.value })}
-              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
+              className="ui-select mt-2"
             >
               {uniqueTags.map((option) => (
-                <option key={option} value={option} className="bg-[#111]">
+                <option key={option} value={option} className="bg-black">
                   {option}
                 </option>
               ))}
@@ -169,70 +169,67 @@ const Tasks = () => {
       </div>
 
       {tasks.length === 0 ? (
-        <div className="p-12 rounded-2xl bg-[#111111] border border-[#1a1a1a] text-center">
-          <div className="w-16 h-16 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-5">
-            <CheckSquare className="w-8 h-8 text-neutral-600" />
+        <div className="ui-card p-12 text-center">
+          <div className="w-16 h-16 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center mx-auto mb-6">
+            <CheckSquare className="w-8 h-8 text-white/35" />
           </div>
           <h3 className="text-lg font-medium text-white mb-2">No tasks yet</h3>
-          <p className="text-neutral-500 mb-6 max-w-sm mx-auto">Start planning your work by creating your first task</p>
-          <button
-            onClick={openAddModal}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black text-sm font-medium hover:bg-neutral-200 transition-all"
-          >
+          <p className="text-white/50 mb-6 max-w-sm mx-auto">Start planning your work by creating your first task</p>
+          <button onClick={openAddModal} className="ui-btn ui-btn-primary">
             <Plus className="w-4 h-4" />
             Create your first task
           </button>
         </div>
       ) : filteredTasks.length === 0 ? (
-        <div className="p-12 rounded-2xl bg-[#111111] border border-[#1a1a1a] text-center">
-          <div className="w-16 h-16 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-5">
-            <Filter className="w-8 h-8 text-neutral-600" />
+        <div className="ui-card p-12 text-center">
+          <div className="w-16 h-16 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center mx-auto mb-6">
+            <Filter className="w-8 h-8 text-white/35" />
           </div>
-          <p className="text-neutral-400">No tasks match your filters</p>
+          <p className="text-white/60">No tasks match your filters</p>
         </div>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2">
           {filteredTasks.map((task) => (
             <div
               key={task.id}
-              className="p-5 rounded-2xl bg-[#111111] border border-[#1a1a1a] hover:border-[#262626] transition-all"
+              className="ui-card p-5 transition-colors hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium ${task.status === "Done" ? "text-neutral-500 line-through" : "text-white"}`}>
+                  <p className={`text-sm font-medium ${task.status === "Done" ? "text-white/45 line-through" : "text-white/90"}`}>
                     {task.title}
                   </p>
                   {task.description && (
-                    <p className="mt-1.5 text-xs text-neutral-500 line-clamp-2">{task.description}</p>
+                    <p className="mt-2 text-xs text-white/45 line-clamp-2">{task.description}</p>
                   )}
-                  <p className="mt-2 text-xs text-neutral-600">
+                  <p className="mt-2 text-xs text-white/40">
                     {task.due ? `Due: ${task.due}` : "No due date"}
                   </p>
                 </div>
-                <span className="px-3 py-1.5 rounded-lg bg-[#1a1a1a] text-xs text-neutral-400 flex-shrink-0">
+                <span className="px-3 py-2 rounded-lg bg-white/8 text-xs text-white/60 flex-shrink-0">
                   {task.tag || "General"}
                 </span>
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
+                    className={`px-3 py-2 rounded-lg text-xs font-medium ${
                       task.status === "Done"
-                        ? "bg-white/10 text-neutral-400"
+                        ? "bg-white/10 text-white/60"
                         : task.status === "In progress"
-                        ? "bg-neutral-800 text-neutral-300"
-                        : "bg-[#1a1a1a] text-neutral-400"
+                        ? "bg-white/12 text-white/75"
+                        : "bg-white/8 text-white/60"
                     }`}
                   >
                     {task.status}
                   </span>
                   <span
-                    className={`px-2.5 py-1 rounded-lg text-xs ${
+                    className={`px-3 py-2 rounded-lg text-xs ${
                       task.priority === "High"
                         ? "bg-white text-black font-medium"
                         : task.priority === "Low"
-                        ? "bg-[#1a1a1a] text-neutral-600"
-                        : "bg-[#1a1a1a] text-neutral-400"
+                        ? "bg-white/6 text-white/40"
+                        : "bg-white/8 text-white/60"
                     }`}
                   >
                     {task.priority || "Medium"}
@@ -244,7 +241,7 @@ const Tasks = () => {
                       {task.status === "Pending" && (
                         <button
                           onClick={() => handleStatusChange(task, "In progress")}
-                          className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
+                          className="ui-icon-btn"
                           title="Start task"
                         >
                           <Clock className="w-4 h-4" />
@@ -252,7 +249,7 @@ const Tasks = () => {
                       )}
                       <button
                         onClick={() => handleStatusChange(task, "Done")}
-                        className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
+                        className="ui-icon-btn"
                         title="Mark as done"
                       >
                         <Check className="w-4 h-4" />
@@ -262,7 +259,7 @@ const Tasks = () => {
                   {task.status === "Done" && (
                     <button
                       onClick={() => handleStatusChange(task, "Pending")}
-                      className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
+                      className="ui-icon-btn"
                       title="Reopen task"
                     >
                       <Circle className="w-4 h-4" />
@@ -270,13 +267,13 @@ const Tasks = () => {
                   )}
                   <button
                     onClick={() => openEditModal(task)}
-                    className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
+                    className="ui-icon-btn"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(task.id)}
-                    className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
+                    className="ui-icon-btn"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -294,23 +291,23 @@ const Tasks = () => {
       >
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Task title</label>
+            <label className="ui-label">Task title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
+              className="ui-input"
               placeholder="e.g., Complete project proposal"
               required
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Description (optional)</label>
+            <label className="ui-label">Description (optional)</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors resize-none"
+              className="ui-input resize-none"
               placeholder="Add more details..."
               rows={2}
             />
@@ -318,21 +315,21 @@ const Tasks = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Due date</label>
+              <label className="ui-label">Due date</label>
               <input
                 type="date"
                 value={formData.due}
                 onChange={(e) => setFormData({ ...formData, due: e.target.value })}
-                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
+                className="ui-input"
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Tag</label>
+              <label className="ui-label">Tag</label>
               <input
                 type="text"
                 value={formData.tag}
                 onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
-                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
+                className="ui-input"
                 placeholder="e.g., Work"
               />
             </div>
@@ -340,27 +337,27 @@ const Tasks = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Priority</label>
+              <label className="ui-label">Priority</label>
               <select
                 value={formData.priority}
                 onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
+                className="ui-select"
               >
-                <option value="High" className="bg-[#111]">High</option>
-                <option value="Medium" className="bg-[#111]">Medium</option>
-                <option value="Low" className="bg-[#111]">Low</option>
+                <option value="High" className="bg-black">High</option>
+                <option value="Medium" className="bg-black">Medium</option>
+                <option value="Low" className="bg-black">Low</option>
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Status</label>
+              <label className="ui-label">Status</label>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
+                className="ui-select"
               >
-                <option value="Pending" className="bg-[#111]">Pending</option>
-                <option value="In progress" className="bg-[#111]">In progress</option>
-                <option value="Done" className="bg-[#111]">Done</option>
+                <option value="Pending" className="bg-black">Pending</option>
+                <option value="In progress" className="bg-black">In progress</option>
+                <option value="Done" className="bg-black">Done</option>
               </select>
             </div>
           </div>
@@ -369,13 +366,13 @@ const Tasks = () => {
             <button
               type="button"
               onClick={closeModal}
-              className="flex-1 rounded-xl border border-[#262626] px-4 py-3 text-sm font-medium text-neutral-400 hover:text-white hover:bg-[#1a1a1a] transition-all"
+              className="flex-1 ui-btn ui-btn-secondary"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 rounded-xl bg-white px-4 py-3 text-sm font-medium text-black hover:bg-neutral-200 transition-all"
+              className="flex-1 ui-btn ui-btn-primary"
             >
               {editingTask ? "Save changes" : "Add task"}
             </button>

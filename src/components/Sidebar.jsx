@@ -41,15 +41,15 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="hidden md:flex flex-col w-72 bg-[#0f0f0f] border-r border-[#1a1a1a]">
+    <aside className="hidden md:flex flex-col w-72 bg-[#0f0f0f] sticky top-0 h-svh shadow-[inset_-1px_0_0_rgba(255,255,255,0.06)]">
       {/* Logo */}
       <div className="flex items-center gap-4 px-6 py-6">
-        <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center">
+        <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.25)]">
           <span className="text-black font-bold text-sm">CT</span>
         </div>
         <div>
           <p className="text-[15px] font-semibold text-white tracking-tight">Consi Tracker</p>
-          <p className="text-xs text-neutral-500">Build consistency</p>
+          <p className="text-xs text-white/50">Build consistency</p>
         </div>
       </div>
 
@@ -63,11 +63,11 @@ const Sidebar = () => {
                 key={item.name}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200
+                  `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-200
                   ${
                     isActive
-                      ? "bg-white text-black"
-                      : "text-neutral-400 hover:text-white hover:bg-[#1a1a1a]"
+                      ? "bg-white/10 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
+                      : "text-white/60 hover:text-white hover:bg-white/5"
                   }`
                 }
               >
@@ -80,8 +80,9 @@ const Sidebar = () => {
       </nav>
 
       {/* User Section */}
-      <div className="p-4 border-t border-[#1a1a1a]">
-        <div className="flex items-center gap-3 px-2 py-3 rounded-xl bg-[#141414]">
+      <div className="p-4">
+        <div className="ui-divider mb-4" />
+        <div className="flex items-center gap-3 px-2 py-3 rounded-xl bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)]">
           {user?.photoURL ? (
             <img
               src={user.photoURL}
@@ -89,17 +90,17 @@ const Sidebar = () => {
               className="w-9 h-9 rounded-full"
             />
           ) : (
-            <div className="w-9 h-9 rounded-full bg-neutral-800 flex items-center justify-center text-white font-medium text-sm">
+            <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white font-medium text-sm shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
               {initials}
             </div>
           )}
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-white truncate">{displayName}</p>
-            <p className="text-xs text-neutral-500 truncate">{email}</p>
+            <p className="text-xs text-white/50 truncate">{email}</p>
           </div>
           <button
             onClick={handleLogout}
-            className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-colors"
+            className="ui-icon-btn"
             title="Logout"
           >
             <LogOut className="w-4 h-4" />

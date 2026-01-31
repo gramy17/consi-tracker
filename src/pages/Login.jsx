@@ -55,7 +55,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
+    <div className="min-h-svh bg-[var(--ui-bg)] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
@@ -64,58 +64,58 @@ const Login = () => {
           </div>
           <div className="leading-tight">
             <p className="text-lg font-semibold text-white">Consi Tracker</p>
-            <p className="text-xs text-neutral-500">Command center</p>
+            <p className="text-xs text-white/50">Command center</p>
           </div>
         </div>
 
         {/* Login Card */}
-        <div className="p-8 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
-          <h1 className="text-xl font-semibold text-white text-center mb-2">
+        <div className="ui-card p-8">
+          <h1 className="ui-h1 text-center mb-2">
             Welcome back
           </h1>
-          <p className="text-sm text-neutral-500 text-center mb-8">
+          <p className="text-sm text-white/55 text-center mb-8">
             Sign in to continue tracking your consistency
           </p>
 
           {error && (
-            <div className="mb-6 p-4 rounded-xl bg-[#1a1a1a] border border-[#262626] text-neutral-300 text-sm">
+            <div className="mb-6 p-4 rounded-xl bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.10)] text-white/80 text-sm">
               {error}
             </div>
           )}
 
           <form onSubmit={handleEmailLogin} className="space-y-5">
             <div>
-              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Email</label>
+              <label className="ui-label">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
+                className="ui-input"
                 placeholder="you@example.com"
                 required
               />
             </div>
 
             <div>
-              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Password</label>
+              <label className="ui-label">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
+                className="ui-input"
                 placeholder="••••••••"
                 required
               />
             </div>
 
             <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 text-neutral-500 cursor-pointer">
-                <input type="checkbox" className="rounded bg-[#1a1a1a] border-neutral-600" />
+              <label className="flex items-center gap-2 text-white/55 cursor-pointer">
+                <input type="checkbox" className="rounded bg-[#0b0b0b]" />
                 Remember me
               </label>
               <Link
                 to="/forgot-password"
-                className="text-neutral-400 hover:text-white transition-colors"
+                className="text-white/65 hover:text-white transition-colors"
               >
                 Forgot password?
               </Link>
@@ -124,7 +124,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-white px-4 py-3 text-sm font-medium text-black hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full ui-btn ui-btn-primary"
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
@@ -132,10 +132,10 @@ const Login = () => {
 
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#1a1a1a]"></div>
+              <div className="w-full h-px bg-white/10"></div>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="px-4 bg-[#111111] text-neutral-500">
+              <span className="px-4 bg-[#111111] text-white/50">
                 Or continue with
               </span>
             </div>
@@ -144,7 +144,7 @@ const Login = () => {
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm font-medium text-white hover:bg-[#1a1a1a] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="w-full ui-btn ui-btn-secondary"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -167,11 +167,11 @@ const Login = () => {
             Continue with Google
           </button>
 
-          <p className="mt-8 text-center text-sm text-neutral-500">
+          <p className="mt-8 text-center text-sm text-white/55">
             Don't have an account?{" "}
             <Link
               to="/signup"
-              className="text-white hover:text-neutral-300 font-medium transition-colors"
+              className="text-white/90 hover:text-white font-medium transition-colors"
             >
               Sign up
             </Link>

@@ -12,6 +12,29 @@ dist
 dist-ssr
 *.local
 
+# Environment variables (keep secrets out of git)
+.env
+.env.*
+!.env.example
+
+# Firebase / cloud credentials (never commit)
+**/*firebase-adminsdk*.json
+**/*serviceAccount*.json
+**/service-account*.json
+
+# Keys / certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# Common secret locations
+secrets/
+**/secrets/
+private/
+**/private/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

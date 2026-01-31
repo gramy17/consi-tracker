@@ -6,13 +6,13 @@ import Navbar from "../components/Navbar";
 
 const Layout: React.FC = () => {
   return (
-    <div className="flex bg-[#050A20] min-h-screen">
+    <div className="flex min-h-svh bg-[var(--ui-bg)]">
       <Sidebar />
 
       <div className="flex-1 relative">
         <Navbar />
 
-        <main className="pt-16 p-6 text-white">
+        <main className="pt-16 p-6 text-[var(--ui-text)]">
           <Outlet />
         </main>
       </div>
