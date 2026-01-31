@@ -9,12 +9,18 @@ const requiredEnvKeys = [
   "VITE_FIREBASE_APP_ID",
 ];
 
-const missingEnvKeys = requiredEnvKeys.filter((key) => !import.meta.env[key]);
-if (missingEnvKeys.length > 0) {
-  throw new Error(
-    `Missing Firebase env vars: ${missingEnvKeys.join(
+export const firebaseEnvMissingKeys = requiredEnvKeys.filter(
+  (key) => !import.meta.env[key]
+);
+export const firebaseEnvValid = firebaseEnvMissingKeys.length === 0;
+
+if (!firebaseEnvValid) {
+  // Don't throw here: a top-level throw causes a blank page in production builds.
+  // Instead, let the app render a helpful configuration message.
+  console.error(
+    `Missing Firebase env vars: ${firebaseEnvMissingKeys.join(
       ", "
-    )}. Create a .env.local (or .env) file; see .env.example.`
+    )}. Configure them in your deployment environment (e.g. Vercel Project Settings → Environment Variables).`
   );
 }
 
@@ -28,12 +34,12 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase only when configured
+const app = firebaseEnvValid ? initializeApp(firebaseConfig) : null;
 
 // Initialize services
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const googleProvider = new GoogleAuthProvider();
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;
+export const googleProvider = app ? new GoogleAuthProvider() : null;
 
 export default app;
