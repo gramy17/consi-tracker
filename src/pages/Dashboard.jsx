@@ -1,137 +1,277 @@
 import React from "react";
-
-const stats = [
-  { label: "Active habits", value: 6, trend: "+2 this week" },
-  { label: "Tasks done", value: 14, trend: "84% completion" },
-  { label: "Goals on track", value: 3, trend: "2 milestones due" },
-  { label: "Consistency score", value: "88%", trend: "+5% vs last week" },
-];
-
-const todayHabits = [
-  { name: "Morning stretch", streak: 12, status: "Done" },
-  { name: "Read 20 minutes", streak: 9, status: "Pending" },
-  { name: "Hydration", streak: 21, status: "Done" },
-  { name: "Evening review", streak: 6, status: "Pending" },
-];
-
-const upcomingTasks = [
-  { title: "Plan weekly sprint", time: "Today, 4:00 PM", tag: "Planning" },
-  { title: "Refactor habit tracker", time: "Tomorrow", tag: "Focus" },
-  { title: "Update goals checklist", time: "Friday", tag: "Goals" },
-];
+import { Link } from "react-router-dom";
+import { Check, ArrowRight, Flame, Target, CheckSquare, TrendingUp } from "lucide-react";
+import { useData } from "../context/DataContext";
+import { PageLoader } from "../components/LoadingSpinner";
 
 const Dashboard = () => {
+  const { habits, tasks, goals, loading, completeHabit, uncompleteHabit, getStats } = useData();
+
+  const today = new Date().toISOString().split("T")[0];
+  const stats = getStats();
+
+  const todayHabits = habits.slice(0, 4).map((habit) => ({
+    ...habit,
+    status: (habit.completedDates || []).includes(today) ? "Done" : "Pending",
+  }));
+
+  const upcomingTasks = tasks
+    .filter((t) => t.status !== "Done")
+    .slice(0, 3)
+    .map((task) => ({
+      ...task,
+      time: task.due || "No due date",
+    }));
+
+  const handleToggleHabit = async (habit) => {
+    const isCompletedToday = (habit.completedDates || []).includes(today);
+    try {
+      if (isCompletedToday) {
+        await uncompleteHabit(habit.id, new Date());
+      } else {
+        await completeHabit(habit.id, new Date());
+      }
+    } catch (error) {
+      console.error("Error toggling habit:", error);
+    }
+  };
+
+  const statsDisplay = [
+    { 
+      label: "Active Habits", 
+      value: stats.activeHabits, 
+      subtext: `${stats.habitsCompletedToday} completed today`,
+      icon: Flame,
+    },
+    { 
+      label: "Tasks Done", 
+      value: stats.tasksDone, 
+      subtext: `${stats.completionRate}% completion rate`,
+      icon: CheckSquare,
+    },
+    { 
+      label: "Goals On Track", 
+      value: stats.goalsOnTrack, 
+      subtext: `of ${stats.totalGoals} total goals`,
+      icon: Target,
+    },
+    { 
+      label: "Consistency", 
+      value: `${stats.consistencyScore}%`, 
+      subtext: `${stats.avgStreak} day avg streak`,
+      icon: TrendingUp,
+    },
+  ];
+
+  if (loading) {
+    return <PageLoader />;
+  }
+
   return (
     <div className="space-y-6">
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur px-4 py-4"
-          >
-            <p className="text-xs uppercase tracking-wide text-white/60">
-              {stat.label}
-            </p>
-            <div className="mt-2 flex items-end justify-between">
-              <span className="text-2xl font-semibold text-white">
-                {stat.value}
-              </span>
-              <span className="text-xs text-emerald-300/90">{stat.trend}</span>
+      {/* Stats Grid */}
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {statsDisplay.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="group ui-card p-5 transition-colors duration-200 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="ui-label">
+                    {stat.label}
+                  </p>
+                  <p className="mt-2 text-3xl font-semibold text-white tracking-tight">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-sm text-white/50">{stat.subtext}</p>
+                </div>
+                <div className="p-3 rounded-xl bg-white/5 group-hover:bg-white/8 transition-colors">
+                  <Icon className="w-5 h-5 text-white/55" />
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-5">
-          <div className="flex items-center justify-between">
+      {/* Main Content Grid */}
+      <section className="grid gap-6 lg:grid-cols-5">
+        {/* Today's Habits - Takes 3 columns */}
+        <div className="lg:col-span-3 ui-card p-6">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-semibold text-white">Today&#39;s habits</h2>
-              <p className="text-xs text-white/60">Keep the streak alive</p>
+              <h2 className="text-lg font-semibold text-white">Today's Habits</h2>
+              <p className="text-sm text-white/50 mt-1">Keep your streak alive</p>
             </div>
-            <button className="rounded-md bg-white/10 px-3 py-2 text-xs text-white/80 hover:bg-white/20">
-              Mark all done
-            </button>
+            <Link 
+              to="/habits"
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium bg-white/10 text-white/70 hover:bg-white/15 hover:text-white transition-colors"
+            >
+              View all
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          <div className="mt-4 space-y-3">
-            {todayHabits.map((habit) => (
-              <div
-                key={habit.name}
-                className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-3"
-              >
-                <div>
-                  <p className="text-sm font-medium text-white">{habit.name}</p>
-                  <p className="text-xs text-white/60">{habit.streak} day streak</p>
-                </div>
-                <span
-                  className={`rounded-full px-3 py-1 text-xs font-medium ${
-                    habit.status === "Done"
-                      ? "bg-emerald-400/15 text-emerald-200"
-                      : "bg-amber-400/15 text-amber-200"
-                  }`}
-                >
-                  {habit.status}
-                </span>
+          {todayHabits.length === 0 ? (
+            <div className="text-center py-12 px-4">
+              <div className="w-12 h-12 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center mx-auto mb-4">
+                <Flame className="w-6 h-6 text-white/35" />
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-5">
-          <h2 className="text-lg font-semibold text-white">Upcoming tasks</h2>
-          <p className="text-xs text-white/60">Focus on the next step</p>
-
-          <div className="mt-4 space-y-3">
-            {upcomingTasks.map((task) => (
-              <div
-                key={task.title}
-                className="rounded-lg border border-white/10 bg-white/5 px-4 py-3"
+              <p className="text-white/60 mb-3">No habits yet</p>
+              <Link 
+                to="/habits"
+                className="inline-flex items-center gap-2 text-sm text-white/85 hover:text-white transition-colors"
               >
-                <p className="text-sm font-medium text-white">{task.title}</p>
-                <div className="mt-2 flex items-center justify-between text-xs text-white/60">
-                  <span>{task.time}</span>
-                  <span className="rounded-full bg-white/10 px-2 py-1 text-white/70">
-                    {task.tag}
+                Create your first habit <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {todayHabits.map((habit) => (
+                <div
+                  key={habit.id}
+                  className="ui-card p-4 flex items-center gap-4 transition-colors hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
+                >
+                  <button
+                    onClick={() => handleToggleHabit(habit)}
+                    className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${
+                      habit.status === "Done"
+                        ? "bg-white border-white"
+                        : "border-white/25 hover:border-white/45"
+                    }`}
+                  >
+                    {habit.status === "Done" && <Check className="w-4 h-4 text-black" strokeWidth={3} />}
+                  </button>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm font-medium ${habit.status === "Done" ? "text-white/45 line-through" : "text-white/90"}`}>
+                      {habit.name}
+                    </p>
+                    <p className="text-xs text-white/40 mt-1">{habit.streak || 0} day streak</p>
+                  </div>
+                  <span
+                    className={`px-3 py-2 rounded-lg text-xs font-medium ${
+                      habit.status === "Done"
+                        ? "bg-white/10 text-white/60"
+                        : "bg-white/8 text-white/60"
+                    }`}
+                  >
+                    {habit.status}
                   </span>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Upcoming Tasks - Takes 2 columns */}
+        <div className="lg:col-span-2 ui-card p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-semibold text-white">Upcoming Tasks</h2>
+            </div>
           </div>
+
+          {upcomingTasks.length === 0 ? (
+            <div className="text-center py-12 px-4">
+              <div className="w-12 h-12 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center mx-auto mb-4">
+                <CheckSquare className="w-6 h-6 text-white/35" />
+              </div>
+              <p className="text-white/60 mb-3">No pending tasks</p>
+              <Link 
+                to="/tasks"
+                className="inline-flex items-center gap-2 text-sm text-white/85 hover:text-white transition-colors"
+              >
+                Add a task <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {upcomingTasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="ui-card p-4 transition-colors hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
+                >
+                  <p className="text-sm font-medium text-white">{task.title}</p>
+                  <div className="mt-3 flex items-center justify-between">
+                    <span className="text-xs text-white/45">{task.time}</span>
+                    <span className="px-3 py-2 rounded-lg bg-white/8 text-xs text-white/60">
+                      {task.tag || "General"}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          <Link 
+            to="/tasks"
+            className="mt-4 ui-btn ui-btn-secondary w-full"
+          >
+            View all tasks
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-5">
-        <div className="flex items-center justify-between">
+      {/* Goals Overview */}
+      <section className="ui-card p-6">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-lg font-semibold text-white">Consistency plan</h2>
-            <p className="text-xs text-white/60">Your weekly focus map</p>
+            <h2 className="text-lg font-semibold text-white">Goals Overview</h2>
+            <p className="text-sm text-white/50 mt-1">Track your long-term progress</p>
           </div>
-          <button className="rounded-md border border-white/10 px-3 py-2 text-xs text-white/80 hover:bg-white/10">
-            View calendar
-          </button>
+          <Link 
+            to="/goals"
+            className="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium bg-white/10 text-white/70 hover:bg-white/15 hover:text-white transition-colors"
+          >
+            View all
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          {["Focus", "Momentum", "Recovery"].map((pillar, index) => (
-            <div
-              key={pillar}
-              className="rounded-lg border border-white/10 bg-white/5 px-4 py-4"
-            >
-              <p className="text-xs uppercase tracking-wide text-white/60">{pillar}</p>
-              <p className="mt-2 text-sm text-white/80">
-                {index === 0 && "Deep work blocks, 2 hours daily."}
-                {index === 1 && "Habit streaks with 80% completion."}
-                {index === 2 && "Plan resets + reflection on Sundays."}
-              </p>
-              <div className="mt-3 h-2 w-full rounded-full bg-white/10">
-                <div
-                  className="h-2 rounded-full bg-gradient-to-r from-indigo-400 to-fuchsia-400"
-                  style={{ width: `${70 + index * 10}%` }}
-                />
-              </div>
+        
+        {goals.length === 0 ? (
+          <div className="text-center py-12 px-4">
+            <div className="w-12 h-12 rounded-full bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] flex items-center justify-center mx-auto mb-4">
+              <Target className="w-6 h-6 text-white/35" />
             </div>
-          ))}
-        </div>
+            <p className="text-white/60 mb-3">No goals set yet</p>
+            <Link 
+              to="/goals"
+              className="inline-flex items-center gap-2 text-sm text-white/85 hover:text-white transition-colors"
+            >
+              Set your first goal <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {goals.slice(0, 3).map((goal) => (
+              <div
+                key={goal.id}
+                className="ui-card p-5 transition-colors hover:shadow-[0_0_0_1px_rgba(255,255,255,0.10)]"
+              >
+                <p className="text-sm font-medium text-white truncate">{goal.title}</p>
+                <p className="mt-1 text-xs text-white/45 truncate">
+                  {goal.description || "No description"}
+                </p>
+                <div className="mt-4">
+                  <div className="flex items-center justify-between text-xs mb-2">
+                    <span className="text-white/45">Progress</span>
+                    <span className="text-white font-medium">{goal.progress || 0}%</span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-white/10">
+                    <div
+                      className="h-2 rounded-full bg-white transition-all duration-500"
+                      style={{ width: `${goal.progress || 0}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
