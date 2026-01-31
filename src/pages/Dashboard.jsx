@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Flame, Target, CheckSquare, TrendingUp } from "lucide-react";
 import { useData } from "../context/DataContext";
 import { PageLoader } from "../components/LoadingSpinner";
 
@@ -38,24 +38,28 @@ const Dashboard = () => {
 
   const statsDisplay = [
     { 
-      label: "Active habits", 
+      label: "Active Habits", 
       value: stats.activeHabits, 
-      trend: `${stats.habitsCompletedToday}/${stats.totalHabits} done today` 
+      subtext: `${stats.habitsCompletedToday} completed today`,
+      icon: Flame,
     },
     { 
-      label: "Tasks done", 
+      label: "Tasks Done", 
       value: stats.tasksDone, 
-      trend: `${stats.completionRate}% completion` 
+      subtext: `${stats.completionRate}% completion rate`,
+      icon: CheckSquare,
     },
     { 
-      label: "Goals on track", 
+      label: "Goals On Track", 
       value: stats.goalsOnTrack, 
-      trend: `of ${stats.totalGoals} total` 
+      subtext: `of ${stats.totalGoals} total goals`,
+      icon: Target,
     },
     { 
-      label: "Consistency score", 
+      label: "Consistency", 
       value: `${stats.consistencyScore}%`, 
-      trend: `Avg streak: ${stats.avgStreak} days` 
+      subtext: `${stats.avgStreak} day avg streak`,
+      icon: TrendingUp,
     },
   ];
 
@@ -64,84 +68,94 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Stats Section */}
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {statsDisplay.map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur px-4 py-4"
-          >
-            <p className="text-xs uppercase tracking-wide text-white/60">
-              {stat.label}
-            </p>
-            <div className="mt-2 flex items-end justify-between">
-              <span className="text-2xl font-semibold text-white">
-                {stat.value}
-              </span>
-              <span className="text-xs text-emerald-300/90">{stat.trend}</span>
+    <div className="space-y-8">
+      {/* Stats Grid */}
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {statsDisplay.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="group p-5 rounded-2xl bg-[#111111] border border-[#1a1a1a] hover:border-[#262626] transition-all duration-300"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                    {stat.label}
+                  </p>
+                  <p className="mt-2 text-3xl font-semibold text-white tracking-tight">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-sm text-neutral-500">{stat.subtext}</p>
+                </div>
+                <div className="p-2.5 rounded-xl bg-[#1a1a1a] group-hover:bg-[#222] transition-colors">
+                  <Icon className="w-5 h-5 text-neutral-400" />
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-3">
-        {/* Today's Habits */}
-        <div className="lg:col-span-2 rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-5">
-          <div className="flex items-center justify-between">
+      {/* Main Content Grid */}
+      <section className="grid gap-6 lg:grid-cols-5">
+        {/* Today's Habits - Takes 3 columns */}
+        <div className="lg:col-span-3 p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-semibold text-white">Today's habits</h2>
-              <p className="text-xs text-white/60">Keep the streak alive</p>
+              <h2 className="text-lg font-semibold text-white">Today's Habits</h2>
+              <p className="text-sm text-neutral-500 mt-0.5">Keep your streak alive</p>
             </div>
             <Link 
               to="/habits"
-              className="flex items-center gap-1 rounded-md bg-white/10 px-3 py-2 text-xs text-white/80 hover:bg-white/20 transition"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium text-neutral-400 hover:text-white bg-[#1a1a1a] hover:bg-[#222] transition-all"
             >
               View all
-              <ArrowRight className="w-3 h-3" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
           {todayHabits.length === 0 ? (
-            <div className="mt-4 text-center py-8">
-              <p className="text-white/60 text-sm">No habits yet.</p>
+            <div className="text-center py-12 px-4">
+              <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-4">
+                <Flame className="w-6 h-6 text-neutral-600" />
+              </div>
+              <p className="text-neutral-400 mb-3">No habits yet</p>
               <Link 
                 to="/habits"
-                className="inline-block mt-2 text-purple-400 hover:text-purple-300 text-sm"
+                className="inline-flex items-center gap-2 text-sm text-white hover:text-neutral-300 transition-colors"
               >
-                Create your first habit →
+                Create your first habit <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           ) : (
-            <div className="mt-4 space-y-3">
+            <div className="space-y-3">
               {todayHabits.map((habit) => (
                 <div
                   key={habit.id}
-                  className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-3"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#262626] transition-all"
                 >
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => handleToggleHabit(habit)}
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition ${
-                        habit.status === "Done"
-                          ? "bg-emerald-500 border-emerald-500 text-white"
-                          : "border-white/30 hover:border-emerald-400"
-                      }`}
-                    >
-                      {habit.status === "Done" && <Check className="w-3 h-3" />}
-                    </button>
-                    <div>
-                      <p className={`text-sm font-medium ${habit.status === "Done" ? "text-white/60 line-through" : "text-white"}`}>
-                        {habit.name}
-                      </p>
-                      <p className="text-xs text-white/60">{habit.streak || 0} day streak</p>
-                    </div>
+                  <button
+                    onClick={() => handleToggleHabit(habit)}
+                    className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${
+                      habit.status === "Done"
+                        ? "bg-white border-white"
+                        : "border-neutral-600 hover:border-neutral-400"
+                    }`}
+                  >
+                    {habit.status === "Done" && <Check className="w-4 h-4 text-black" strokeWidth={3} />}
+                  </button>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm font-medium ${habit.status === "Done" ? "text-neutral-500 line-through" : "text-white"}`}>
+                      {habit.name}
+                    </p>
+                    <p className="text-xs text-neutral-600 mt-0.5">{habit.streak || 0} day streak</p>
                   </div>
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
                       habit.status === "Done"
-                        ? "bg-emerald-400/15 text-emerald-200"
-                        : "bg-amber-400/15 text-amber-200"
+                        ? "bg-white/10 text-neutral-400"
+                        : "bg-[#1a1a1a] text-neutral-400"
                     }`}
                   >
                     {habit.status}
@@ -152,36 +166,39 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Upcoming Tasks */}
-        <div className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-5">
-          <div className="flex items-center justify-between">
+        {/* Upcoming Tasks - Takes 2 columns */}
+        <div className="lg:col-span-2 p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-semibold text-white">Upcoming tasks</h2>
-              <p className="text-xs text-white/60">Focus on the next step</p>
+              <h2 className="text-lg font-semibold text-white">Upcoming Tasks</h2>
+              <p className="text-sm text-neutral-500 mt-0.5">What's next on your list</p>
             </div>
           </div>
 
           {upcomingTasks.length === 0 ? (
-            <div className="mt-4 text-center py-8">
-              <p className="text-white/60 text-sm">No pending tasks.</p>
+            <div className="text-center py-12 px-4">
+              <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-4">
+                <CheckSquare className="w-6 h-6 text-neutral-600" />
+              </div>
+              <p className="text-neutral-400 mb-3">No pending tasks</p>
               <Link 
                 to="/tasks"
-                className="inline-block mt-2 text-purple-400 hover:text-purple-300 text-sm"
+                className="inline-flex items-center gap-2 text-sm text-white hover:text-neutral-300 transition-colors"
               >
-                Add a task →
+                Add a task <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           ) : (
-            <div className="mt-4 space-y-3">
+            <div className="space-y-3">
               {upcomingTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-3"
+                  className="p-4 rounded-xl bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#262626] transition-all"
                 >
                   <p className="text-sm font-medium text-white">{task.title}</p>
-                  <div className="mt-2 flex items-center justify-between text-xs text-white/60">
-                    <span>{task.time}</span>
-                    <span className="rounded-full bg-white/10 px-2 py-1 text-white/70">
+                  <div className="mt-3 flex items-center justify-between">
+                    <span className="text-xs text-neutral-500">{task.time}</span>
+                    <span className="px-2.5 py-1 rounded-lg bg-[#1a1a1a] text-xs text-neutral-400">
                       {task.tag || "General"}
                     </span>
                   </div>
@@ -192,58 +209,66 @@ const Dashboard = () => {
           
           <Link 
             to="/tasks"
-            className="mt-4 flex items-center justify-center gap-1 w-full rounded-md border border-white/10 px-3 py-2 text-xs text-white/80 hover:bg-white/10 transition"
+            className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-medium text-neutral-400 hover:text-white bg-[#1a1a1a] hover:bg-[#222] transition-all"
           >
             View all tasks
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>
 
       {/* Goals Overview */}
-      <section className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-5">
-        <div className="flex items-center justify-between">
+      <section className="p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-lg font-semibold text-white">Goals overview</h2>
-            <p className="text-xs text-white/60">Track your long-term progress</p>
+            <h2 className="text-lg font-semibold text-white">Goals Overview</h2>
+            <p className="text-sm text-neutral-500 mt-0.5">Track your long-term progress</p>
           </div>
           <Link 
             to="/goals"
-            className="flex items-center gap-1 rounded-md border border-white/10 px-3 py-2 text-xs text-white/80 hover:bg-white/10 transition"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium text-neutral-400 hover:text-white bg-[#1a1a1a] hover:bg-[#222] transition-all"
           >
             View all
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
         
         {goals.length === 0 ? (
-          <div className="mt-4 text-center py-8">
-            <p className="text-white/60 text-sm">No goals set yet.</p>
+          <div className="text-center py-12 px-4">
+            <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-4">
+              <Target className="w-6 h-6 text-neutral-600" />
+            </div>
+            <p className="text-neutral-400 mb-3">No goals set yet</p>
             <Link 
               to="/goals"
-              className="inline-block mt-2 text-purple-400 hover:text-purple-300 text-sm"
+              className="inline-flex items-center gap-2 text-sm text-white hover:text-neutral-300 transition-colors"
             >
-              Set your first goal →
+              Set your first goal <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         ) : (
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {goals.slice(0, 3).map((goal) => (
               <div
                 key={goal.id}
-                className="rounded-lg border border-white/10 bg-white/5 px-4 py-4"
+                className="p-5 rounded-xl bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#262626] transition-all"
               >
                 <p className="text-sm font-medium text-white truncate">{goal.title}</p>
-                <p className="mt-1 text-xs text-white/60 truncate">
+                <p className="mt-1 text-xs text-neutral-500 truncate">
                   {goal.description || "No description"}
                 </p>
-                <div className="mt-3 h-2 w-full rounded-full bg-white/10">
-                  <div
-                    className="h-2 rounded-full bg-gradient-to-r from-indigo-400 to-fuchsia-400"
-                    style={{ width: `${goal.progress || 0}%` }}
-                  />
+                <div className="mt-4">
+                  <div className="flex items-center justify-between text-xs mb-2">
+                    <span className="text-neutral-500">Progress</span>
+                    <span className="text-white font-medium">{goal.progress || 0}%</span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-[#1a1a1a]">
+                    <div
+                      className="h-1.5 rounded-full bg-white transition-all duration-500"
+                      style={{ width: `${goal.progress || 0}%` }}
+                    />
+                  </div>
                 </div>
-                <p className="mt-2 text-xs text-white/60 text-right">{goal.progress || 0}%</p>
               </div>
             ))}
           </div>

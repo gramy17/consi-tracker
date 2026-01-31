@@ -1,4 +1,74 @@
 @import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: #0a0a0a;
+  color: #fafafa;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #141414;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* Input and select styling */
+input, select, textarea {
+  background-color: #141414 !important;
+  border-color: #262626 !important;
+  color: #fafafa !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #525252 !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none !important;
+  border-color: #404040 !important;
+  box-shadow: 0 0 0 2px rgba(64, 64, 64, 0.2) !important;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  accent-color: #fafafa;
+}
+
+/* Selection */
+::selection {
+  background-color: #333;
+  color: #fafafa;
+}
+
+/* Date picker */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

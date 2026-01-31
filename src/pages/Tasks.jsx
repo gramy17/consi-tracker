@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Plus, Trash2, Edit2, Check, Circle, Clock } from "lucide-react";
+import { Plus, Trash2, Edit2, Check, Circle, Clock, CheckSquare, Filter } from "lucide-react";
 import { useData } from "../context/DataContext";
 import Modal from "../components/Modal";
 import { PageLoader } from "../components/LoadingSpinner";
@@ -104,60 +104,62 @@ const Tasks = () => {
   }
 
   return (
-    <div className="space-y-6 text-white">
-      <div className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur">
-        <div className="flex flex-wrap items-center justify-between gap-4 p-5">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="p-6 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-lg font-semibold">Tasks</h1>
-            <p className="text-xs text-white/60">Plan, prioritize, and ship consistently.</p>
+            <h1 className="text-xl font-semibold text-white">Tasks</h1>
+            <p className="text-sm text-neutral-500 mt-1">Plan, prioritize, and ship consistently</p>
           </div>
           <button
             onClick={openAddModal}
-            className="flex items-center gap-2 rounded-md bg-white/90 px-4 py-2 text-sm font-medium text-[#4B0879] hover:bg-white transition"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black text-sm font-medium hover:bg-neutral-200 transition-all"
           >
             <Plus className="w-4 h-4" />
             Add task
           </button>
         </div>
 
-        <div className="grid gap-4 border-t border-white/10 p-5 md:grid-cols-3">
+        {/* Filters */}
+        <div className="grid gap-4 md:grid-cols-3">
           <div>
-            <label className="text-xs text-white/60">Status</label>
+            <label className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Status</label>
             <select
               value={filters.status}
               onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-              className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2 text-sm text-white/80"
+              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
             >
               {["All", "Pending", "In progress", "Done"].map((option) => (
-                <option key={option} value={option} className="bg-slate-800">
+                <option key={option} value={option} className="bg-[#111]">
                   {option}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="text-xs text-white/60">Priority</label>
+            <label className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Priority</label>
             <select
               value={filters.priority}
               onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
-              className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2 text-sm text-white/80"
+              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
             >
               {["All", "High", "Medium", "Low"].map((option) => (
-                <option key={option} value={option} className="bg-slate-800">
+                <option key={option} value={option} className="bg-[#111]">
                   {option}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="text-xs text-white/60">Tag</label>
+            <label className="text-xs font-medium text-neutral-500 uppercase tracking-wider">Tag</label>
             <select
               value={filters.tag}
               onChange={(e) => setFilters({ ...filters, tag: e.target.value })}
-              className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2 text-sm text-white/80"
+              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
             >
               {uniqueTags.map((option) => (
-                <option key={option} value={option} className="bg-slate-800">
+                <option key={option} value={option} className="bg-[#111]">
                   {option}
                 </option>
               ))}
@@ -167,63 +169,70 @@ const Tasks = () => {
       </div>
 
       {tasks.length === 0 ? (
-        <div className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-10 text-center">
-          <p className="text-white/60 mb-4">No tasks yet. Start planning your work!</p>
+        <div className="p-12 rounded-2xl bg-[#111111] border border-[#1a1a1a] text-center">
+          <div className="w-16 h-16 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-5">
+            <CheckSquare className="w-8 h-8 text-neutral-600" />
+          </div>
+          <h3 className="text-lg font-medium text-white mb-2">No tasks yet</h3>
+          <p className="text-neutral-500 mb-6 max-w-sm mx-auto">Start planning your work by creating your first task</p>
           <button
             onClick={openAddModal}
-            className="inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2 text-sm font-medium text-white hover:from-purple-500 hover:to-indigo-500 transition"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black text-sm font-medium hover:bg-neutral-200 transition-all"
           >
             <Plus className="w-4 h-4" />
             Create your first task
           </button>
         </div>
       ) : filteredTasks.length === 0 ? (
-        <div className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-10 text-center">
-          <p className="text-white/60">No tasks match your filters.</p>
+        <div className="p-12 rounded-2xl bg-[#111111] border border-[#1a1a1a] text-center">
+          <div className="w-16 h-16 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-5">
+            <Filter className="w-8 h-8 text-neutral-600" />
+          </div>
+          <p className="text-neutral-400">No tasks match your filters</p>
         </div>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2">
           {filteredTasks.map((task) => (
             <div
               key={task.id}
-              className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-5"
+              className="p-5 rounded-2xl bg-[#111111] border border-[#1a1a1a] hover:border-[#262626] transition-all"
             >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <p className={`text-sm font-semibold ${task.status === "Done" ? "text-white/60 line-through" : "text-white"}`}>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <p className={`text-sm font-medium ${task.status === "Done" ? "text-neutral-500 line-through" : "text-white"}`}>
                     {task.title}
                   </p>
                   {task.description && (
-                    <p className="mt-1 text-xs text-white/50">{task.description}</p>
+                    <p className="mt-1.5 text-xs text-neutral-500 line-clamp-2">{task.description}</p>
                   )}
-                  <p className="mt-1 text-xs text-white/60">
+                  <p className="mt-2 text-xs text-neutral-600">
                     {task.due ? `Due: ${task.due}` : "No due date"}
                   </p>
                 </div>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/70">
+                <span className="px-3 py-1.5 rounded-lg bg-[#1a1a1a] text-xs text-neutral-400 flex-shrink-0">
                   {task.tag || "General"}
                 </span>
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
                       task.status === "Done"
-                        ? "bg-emerald-400/15 text-emerald-200"
+                        ? "bg-white/10 text-neutral-400"
                         : task.status === "In progress"
-                        ? "bg-indigo-400/15 text-indigo-200"
-                        : "bg-amber-400/15 text-amber-200"
+                        ? "bg-neutral-800 text-neutral-300"
+                        : "bg-[#1a1a1a] text-neutral-400"
                     }`}
                   >
                     {task.status}
                   </span>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs ${
+                    className={`px-2.5 py-1 rounded-lg text-xs ${
                       task.priority === "High"
-                        ? "bg-red-400/15 text-red-200"
+                        ? "bg-white text-black font-medium"
                         : task.priority === "Low"
-                        ? "bg-slate-400/15 text-slate-300"
-                        : "bg-yellow-400/15 text-yellow-200"
+                        ? "bg-[#1a1a1a] text-neutral-600"
+                        : "bg-[#1a1a1a] text-neutral-400"
                     }`}
                   >
                     {task.priority || "Medium"}
@@ -235,7 +244,7 @@ const Tasks = () => {
                       {task.status === "Pending" && (
                         <button
                           onClick={() => handleStatusChange(task, "In progress")}
-                          className="p-1.5 rounded-md text-white/40 hover:text-indigo-400 hover:bg-indigo-400/10 transition"
+                          className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
                           title="Start task"
                         >
                           <Clock className="w-4 h-4" />
@@ -243,7 +252,7 @@ const Tasks = () => {
                       )}
                       <button
                         onClick={() => handleStatusChange(task, "Done")}
-                        className="p-1.5 rounded-md text-white/40 hover:text-emerald-400 hover:bg-emerald-400/10 transition"
+                        className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
                         title="Mark as done"
                       >
                         <Check className="w-4 h-4" />
@@ -253,7 +262,7 @@ const Tasks = () => {
                   {task.status === "Done" && (
                     <button
                       onClick={() => handleStatusChange(task, "Pending")}
-                      className="p-1.5 rounded-md text-white/40 hover:text-amber-400 hover:bg-amber-400/10 transition"
+                      className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
                       title="Reopen task"
                     >
                       <Circle className="w-4 h-4" />
@@ -261,13 +270,13 @@ const Tasks = () => {
                   )}
                   <button
                     onClick={() => openEditModal(task)}
-                    className="p-1.5 rounded-md text-white/40 hover:text-white hover:bg-white/10 transition"
+                    className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(task.id)}
-                    className="p-1.5 rounded-md text-white/40 hover:text-red-400 hover:bg-red-400/10 transition"
+                    className="p-2 rounded-lg text-neutral-500 hover:text-white hover:bg-[#1a1a1a] transition-all"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -283,90 +292,90 @@ const Tasks = () => {
         onClose={closeModal}
         title={editingTask ? "Edit Task" : "Add New Task"}
       >
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="text-xs text-white/60">Task title</label>
+            <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Task title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-500"
+              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
               placeholder="e.g., Complete project proposal"
               required
             />
           </div>
 
           <div>
-            <label className="text-xs text-white/60">Description (optional)</label>
+            <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Description (optional)</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-500 resize-none"
+              className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors resize-none"
               placeholder="Add more details..."
               rows={2}
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-white/60">Due date</label>
+              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Due date</label>
               <input
                 type="date"
                 value={formData.due}
                 onChange={(e) => setFormData({ ...formData, due: e.target.value })}
-                className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500"
+                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
               />
             </div>
             <div>
-              <label className="text-xs text-white/60">Tag</label>
+              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Tag</label>
               <input
                 type="text"
                 value={formData.tag}
                 onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
-                className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-500"
+                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
                 placeholder="e.g., Work"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-white/60">Priority</label>
+              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Priority</label>
               <select
                 value={formData.priority}
                 onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500"
+                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
               >
-                <option value="High" className="bg-slate-800">High</option>
-                <option value="Medium" className="bg-slate-800">Medium</option>
-                <option value="Low" className="bg-slate-800">Low</option>
+                <option value="High" className="bg-[#111]">High</option>
+                <option value="Medium" className="bg-[#111]">Medium</option>
+                <option value="Low" className="bg-[#111]">Low</option>
               </select>
             </div>
             <div>
-              <label className="text-xs text-white/60">Status</label>
+              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Status</label>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500"
+                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white focus:outline-none focus:border-neutral-500 transition-colors"
               >
-                <option value="Pending" className="bg-slate-800">Pending</option>
-                <option value="In progress" className="bg-slate-800">In progress</option>
-                <option value="Done" className="bg-slate-800">Done</option>
+                <option value="Pending" className="bg-[#111]">Pending</option>
+                <option value="In progress" className="bg-[#111]">In progress</option>
+                <option value="Done" className="bg-[#111]">Done</option>
               </select>
             </div>
           </div>
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-3">
             <button
               type="button"
               onClick={closeModal}
-              className="flex-1 rounded-md border border-white/10 px-4 py-2.5 text-sm font-medium text-white/80 hover:bg-white/10 transition"
+              className="flex-1 rounded-xl border border-[#262626] px-4 py-3 text-sm font-medium text-neutral-400 hover:text-white hover:bg-[#1a1a1a] transition-all"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:from-purple-500 hover:to-indigo-500 transition"
+              className="flex-1 rounded-xl bg-white px-4 py-3 text-sm font-medium text-black hover:bg-neutral-200 transition-all"
             >
               {editingTask ? "Save changes" : "Add task"}
             </button>

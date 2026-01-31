@@ -66,78 +66,78 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050A20] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[rgba(119,0,201,0.65)] to-[rgba(204,229,242,0.65)] flex items-center justify-center text-white font-bold text-lg">
+          <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-black font-bold text-lg">
             CT
           </div>
           <div className="leading-tight">
             <p className="text-lg font-semibold text-white">Consi Tracker</p>
-            <p className="text-xs text-white/60">Command center</p>
+            <p className="text-xs text-neutral-500">Command center</p>
           </div>
         </div>
 
         {/* Signup Card */}
-        <div className="rounded-xl border border-slate-800/40 bg-white/5 backdrop-blur p-6">
+        <div className="p-8 rounded-2xl bg-[#111111] border border-[#1a1a1a]">
           <h1 className="text-xl font-semibold text-white text-center mb-2">
             Create your account
           </h1>
-          <p className="text-sm text-white/60 text-center mb-6">
+          <p className="text-sm text-neutral-500 text-center mb-8">
             Start building consistent habits today
           </p>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
+            <div className="mb-6 p-4 rounded-xl bg-[#1a1a1a] border border-[#262626] text-neutral-300 text-sm">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleEmailSignup} className="space-y-4">
+          <form onSubmit={handleEmailSignup} className="space-y-5">
             <div>
-              <label className="text-xs text-white/60">Display name</label>
+              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Display name</label>
               <input
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-500"
+                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
                 placeholder="Your name"
                 required
               />
             </div>
 
             <div>
-              <label className="text-xs text-white/60">Email</label>
+              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-500"
+                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
                 placeholder="you@example.com"
                 required
               />
             </div>
 
             <div>
-              <label className="text-xs text-white/60">Password</label>
+              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-500"
+                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
                 placeholder="••••••••"
                 required
               />
             </div>
 
             <div>
-              <label className="text-xs text-white/60">Confirm password</label>
+              <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider">Confirm password</label>
               <input
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-2 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-500"
+                className="mt-2 w-full rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-500 transition-colors"
                 placeholder="••••••••"
                 required
               />
@@ -146,18 +146,18 @@ const Signup = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:from-purple-500 hover:to-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="w-full rounded-xl bg-white px-4 py-3 text-sm font-medium text-black hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
 
-          <div className="relative my-6">
+          <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10"></div>
+              <div className="w-full border-t border-[#1a1a1a]"></div>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="px-2 bg-[#0a1628] text-white/60">
+              <span className="px-4 bg-[#111111] text-neutral-500">
                 Or continue with
               </span>
             </div>
@@ -166,7 +166,7 @@ const Signup = () => {
           <button
             onClick={handleGoogleSignup}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 rounded-md border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="w-full flex items-center justify-center gap-3 rounded-xl border border-[#262626] bg-[#0a0a0a] px-4 py-3 text-sm font-medium text-white hover:bg-[#1a1a1a] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -189,11 +189,11 @@ const Signup = () => {
             Continue with Google
           </button>
 
-          <p className="mt-6 text-center text-sm text-white/60">
+          <p className="mt-8 text-center text-sm text-neutral-500">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-purple-400 hover:text-purple-300 font-medium"
+              className="text-white hover:text-neutral-300 font-medium transition-colors"
             >
               Sign in
             </Link>
