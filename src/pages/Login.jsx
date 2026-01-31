@@ -46,8 +46,26 @@ const Login = () => {
       console.error(err);
       if (err.code === "auth/popup-closed-by-user") {
         setError("Sign-in popup was closed.");
+      } else if (err.code === "auth/popup-blocked") {
+        setError("Popup was blocked by the browser. Allow popups and try again.");
+      } else if (err.code === "auth/cancelled-popup-request") {
+        setError("Another sign-in popup is already open.");
+      } else if (err.code === "auth/unauthorized-domain") {
+        setError(
+          "This domain is not authorized for Google sign-in. Add your Vercel domain in Firebase Console → Authentication → Settings → Authorized domains."
+        );
+      } else if (err.code === "auth/operation-not-allowed") {
+        setError(
+          "Google sign-in is not enabled. Enable Google provider in Firebase Console → Authentication → Sign-in method."
+        );
+      } else if (err.code === "auth/network-request-failed") {
+        setError("Network error. Check connection and try again.");
       } else {
-        setError("Failed to sign in with Google.");
+        setError(
+          `Failed to sign in with Google (${err.code || "unknown"}). ${
+            err.message ? err.message : ""
+          }`
+        );
       }
     } finally {
       setLoading(false);
